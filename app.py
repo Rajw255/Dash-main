@@ -35,7 +35,7 @@ ACCENT = "#C89B3C"
 st.markdown(f"""
 <style>
 .block-container {{
-    padding-top: 3rem;
+    padding-top: 3rem !important;
 }}
 
 h1, h2, h3 {{
@@ -44,10 +44,16 @@ h1, h2, h3 {{
 
 h1 {{
     font-size: 28px !important;
-    margin-top: 0.5rem !important;
-    margin-bottom: 0.5rem !important;
 }}
 
+/* Submit button color */
+div.stButton > button[kind="primary"] {{
+    background-color: #198754 !important;
+    color: white !important;
+    border: none !important;
+}}
+</style>
+""", unsafe_allow_html=True)
 /* Make the left input panel compact */
 [data-testid="stNumberInput"],
 [data-testid="stSelectbox"],
@@ -186,7 +192,7 @@ with col_results:
     st.caption("Click Submit to lock in "
                "this scenario for download.")
 
-    if st.button("✅ Submit this scenario", type="primary"):
+    if st.button("Submit this scenario", type="primary"):
         st.session_state["submitted"] = {
             "inputs": inputs, "projection": projection, "milestones": milestones,
             "signature": current_signature, "highlight_year": highlight_year,
