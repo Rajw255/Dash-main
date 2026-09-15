@@ -122,13 +122,13 @@ with col_inputs:
     market_cagr = st.number_input("Market CAGR % p.a.", min_value=0.0, value=12.0, step=0.5, key="ic_cagr")
 
     st.markdown("**Cross-Sell Income** *(toggle to add)*")
-    life_on = st.toggle("Life Insurance — 40% commission", key="ic_life_on")
-    health_on = st.toggle("Health Insurance — 30% commission", key="ic_health_on")
-    pms_on = st.toggle("PMS — 1% commission", key="ic_pms_on")
-    demat_on = st.toggle("Demat & Broking — ₹210/client/mo", key="ic_demat_on")
+    life_on = st.toggle("Life Insurance", key="ic_life_on")
+    health_on = st.toggle("Health Insurance ", key="ic_health_on")
+    pms_on = st.toggle("PMS ", key="ic_pms_on")
+    demat_on = st.toggle("Demat & Broking ", key="ic_demat_on")
 
-    st.caption("Cross-sell commission rates above are illustrative placeholders — "
-               "confirm your real payout structure with Finance before relying on these numbers.")
+    #st.caption("Cross-sell commission rates above are illustrative placeholders — "
+    #           "confirm your real payout structure with Finance before relying on these numbers.")
 
 inputs = ProjectionInputs(
     starting_clients=starting_clients,
@@ -157,14 +157,7 @@ with col_results:
     y5 = projection[min(5, len(projection)) - 1]
     y_last = projection[-1]
 
-    st.markdown(f"""
-    <div class='insight-card'>🎯 By <b>Year {highlight_year}</b>, projected annual income is
-    <b>{format_inr(hy['total_income'])}</b> ({format_inr(hy['total_income']/12)}/mo).
-    <span style='float:right;color:#6b7280'>Year {min(5,len(projection))}: {format_inr(y5['total_income'])}/yr ·
-    Year {y_last['year']}: {format_inr(y_last['total_income'])}/yr</span></div>
-    """, unsafe_allow_html=True)
-
-    st.markdown(f"**{active_years}-Year Income Projections** — {len(milestones)} milestones")
+   #st.markdown(f"**{active_years}-Year Income Projections** — {len(milestones)} milestones")
     table_rows = []
     for y in milestones:
         r = projection[y - 1]
