@@ -54,13 +54,6 @@ div.stButton > button[kind="primary"] {{
 }}
 </style>
 """, unsafe_allow_html=True)
-/* Make the left input panel compact */
-[data-testid="stNumberInput"],
-[data-testid="stSelectbox"],
-[data-testid="stToggle"] {{
-    margin-bottom: -10px;
-}}
-
 /* Reduce vertical gap between Streamlit elements */
 [data-testid="stVerticalBlock"] {{
     gap: 0.3rem;
