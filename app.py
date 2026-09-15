@@ -42,6 +42,12 @@ h1, h2, h3 {{
     color: {PRIMARY};
 }}
 
+h1 {{
+    font-size: 28px !important;
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}}
+
 /* Make the left input panel compact */
 [data-testid="stNumberInput"],
 [data-testid="stSelectbox"],
