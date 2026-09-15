@@ -212,8 +212,7 @@ with col_results:
                              mime="application/pdf", use_container_width=True)
         dl2.download_button("Download CSV", csv_bytes, file_name="income_projection.csv",
                              mime="text/csv", use_container_width=True)
-    else:
-        st.info("Submit a scenario above to enable the PDF/CSV downloads.")
+    
 
 st.markdown("---")
 chart_years = [r["year"] for r in projection]
