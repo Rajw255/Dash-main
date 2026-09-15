@@ -202,8 +202,8 @@ with col_results:
             st.markdown("<div class='submitted-banner'>Scenario submitted and ready to download.</div>", unsafe_allow_html=True)
 
         hy_sub = submitted["projection"][submitted["highlight_year"] - 1]
-        st.caption(f"Submitted scenario: Year {submitted['highlight_year']} projected income "
-                   f"{format_inr(hy_sub['total_income'])}/yr, {int(submitted['inputs'].active_years)}-year horizon.")
+        #st.caption(f"Submitted scenario: Year {submitted['highlight_year']} projected income "
+         #          f"{format_inr(hy_sub['total_income'])}/yr, {int(submitted['inputs'].active_years)}-year horizon.")
 
         dl1, dl2 = st.columns(2)
         pdf_bytes = export.build_pdf_bytes(submitted["inputs"], submitted["projection"], submitted["milestones"])
