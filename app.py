@@ -27,7 +27,7 @@ from formatting import format_inr, format_count, format_pct
 from income_projection import ProjectionInputs, CrossSellAssumption, simulate, milestone_years
 import income_report_export as export
 
-st.set_page_config(page_title="Partner Income Calculator", page_icon="💰", layout="centered")
+st.set_page_config(page_title="Partner Income Calculator", page_icon="💰", layout="wide")
 
 PRIMARY = "#0B3D66"
 ACCENT = "#C89B3C"
