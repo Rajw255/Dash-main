@@ -79,9 +79,9 @@ h1 {{
 </style>
 """, unsafe_allow_html=True)
 
-st.title("💰 Partner Income Calculator")
-st.caption("Adjust assumptions and watch the projection update live. When you've landed on a scenario you like, "
-           "click **Submit** to lock it in, then download it as PDF or CSV.")
+st.title("Partner Income Calculator")
+"""st.caption("Adjust assumptions and watch the projection update live. When you've landed on a scenario you like, "
+           "click **Submit** to lock it in, then download it as PDF or CSV.")"""
 
 
 def _inputs_signature(p: ProjectionInputs) -> str:
