@@ -34,15 +34,41 @@ ACCENT = "#C89B3C"
 
 st.markdown(f"""
 <style>
-.block-container {{ padding-top: 1.5rem; }}
-h1, h2, h3 {{ color: {PRIMARY}; }}
-.insight-card {{
-    background:white; border-left: 4px solid {ACCENT}; border-radius:6px;
-    padding:10px 14px; margin-bottom:8px; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+.block-container {{
+    padding-top: 1rem;
 }}
+
+h1, h2, h3 {{
+    color: {PRIMARY};
+}}
+
+/* Make the left input panel compact */
+[data-testid="stNumberInput"],
+[data-testid="stSelectbox"],
+[data-testid="stToggle"] {{
+    margin-bottom: -10px;
+}}
+
+/* Reduce vertical gap between Streamlit elements */
+[data-testid="stVerticalBlock"] {{
+    gap: 0.3rem;
+}}
+
+.insight-card {{
+    background:white;
+    border-left: 4px solid {ACCENT};
+    border-radius:6px;
+    padding:10px 14px;
+    margin-bottom:8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}}
+
 .submitted-banner {{
-    background:#e8f5e9; border:1px solid #a5d6a7; border-radius:8px;
-    padding:12px 16px; margin: 10px 0;
+    background:#e8f5e9;
+    border:1px solid #a5d6a7;
+    border-radius:8px;
+    padding:12px 16px;
+    margin:10px 0;
 }}
 </style>
 """, unsafe_allow_html=True)
