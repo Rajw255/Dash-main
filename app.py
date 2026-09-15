@@ -34,6 +34,7 @@ ACCENT = "#C89B3C"
 
 st.markdown(f"""
 <style>
+
 .block-container {{
     padding-top: 3rem !important;
 }}
@@ -46,35 +47,35 @@ h1 {{
     font-size: 28px !important;
 }}
 
+/* Reduce vertical gap between Streamlit elements */
+[data-testid="stVerticalBlock"] {{
+    gap: 0.3rem;
+}}
+
 /* Submit button color */
 div.stButton > button[kind="primary"] {{
     background-color: #198754 !important;
     color: white !important;
     border: none !important;
 }}
-</style>
-""", unsafe_allow_html=True)
-/* Reduce vertical gap between Streamlit elements */
-[data-testid="stVerticalBlock"] {{
-    gap: 0.3rem;
-}}
 
 .insight-card {{
-    background:white;
+    background: white;
     border-left: 4px solid {ACCENT};
-    border-radius:6px;
-    padding:10px 14px;
-    margin-bottom:8px;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
     box-shadow: 0 1px 2px rgba(0,0,0,0.04);
 }}
 
 .submitted-banner {{
-    background:#e8f5e9;
-    border:1px solid #a5d6a7;
-    border-radius:8px;
-    padding:12px 16px;
-    margin:10px 0;
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 10px 0;
 }}
+
 </style>
 """, unsafe_allow_html=True)
 
