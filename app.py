@@ -183,7 +183,7 @@ with col_results:
     # Submit → lock in this scenario → download PDF / CSV (right under the table)
     # -----------------------------------------------------------------
     st.markdown("---")
-    st.caption("Once you've settled on a target range by trying different numbers above, click Submit to lock in "
+    st.caption("Click Submit to lock in "
                "this scenario for download.")
 
     if st.button("✅ Submit this scenario", type="primary"):
@@ -199,7 +199,7 @@ with col_results:
             st.warning("Inputs have changed since you last submitted — the downloads below still reflect the "
                        "**previously submitted** scenario. Click Submit again to refresh them.")
         else:
-            st.markdown("<div class='submitted-banner'>✅ Scenario submitted and ready to download.</div>", unsafe_allow_html=True)
+            st.markdown("<div class='submitted-banner'>Scenario submitted and ready to download.</div>", unsafe_allow_html=True)
 
         hy_sub = submitted["projection"][submitted["highlight_year"] - 1]
         st.caption(f"Submitted scenario: Year {submitted['highlight_year']} projected income "
@@ -208,9 +208,9 @@ with col_results:
         dl1, dl2 = st.columns(2)
         pdf_bytes = export.build_pdf_bytes(submitted["inputs"], submitted["projection"], submitted["milestones"])
         csv_bytes = export.build_csv_bytes(submitted["inputs"], submitted["projection"])
-        dl1.download_button("📄 Download PDF", pdf_bytes, file_name="income_projection.pdf",
+        dl1.download_button("Download PDF", pdf_bytes, file_name="income_projection.pdf",
                              mime="application/pdf", use_container_width=True)
-        dl2.download_button("📊 Download CSV", csv_bytes, file_name="income_projection.csv",
+        dl2.download_button("Download CSV", csv_bytes, file_name="income_projection.csv",
                              mime="text/csv", use_container_width=True)
     else:
         st.info("Submit a scenario above to enable the PDF/CSV downloads.")
