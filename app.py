@@ -154,6 +154,42 @@ with col_results:
     st.caption(f"Illustrative projections. Trail: {trail_rate}% p.a. · Market CAGR: {market_cagr}% · "
                f"Cross-sell: Life 40% · Health 30% · PMS 1% (of AUM) · Demat ₹210/active client/mo.")
 
+    # -----------------------------------------------------------------
+    # Submit → lock in this scenario → download PDF / CSV (right under the table)
+    # -----------------------------------------------------------------
+    st.markdown("---")
+    st.caption("Once you've settled on a target range by trying different numbers above, click Submit to lock in "
+               "this scenario for download.")
+
+    if st.button("✅ Submit this scenario", type="primary"):
+        st.session_state["submitted"] = {
+            "inputs": inputs, "projection": projection, "milestones": milestones,
+            "signature": current_signature, "highlight_year": highlight_year,
+        }
+
+    submitted = st.session_state.get("submitted")
+    if submitted:
+        stale = submitted["signature"] != current_signature
+        if stale:
+            st.warning("Inputs have changed since you last submitted — the downloads below still reflect the "
+                       "**previously submitted** scenario. Click Submit again to refresh them.")
+        else:
+            st.markdown("<div class='submitted-banner'>✅ Scenario submitted and ready to download.</div>", unsafe_allow_html=True)
+
+        hy_sub = submitted["projection"][submitted["highlight_year"] - 1]
+        st.caption(f"Submitted scenario: Year {submitted['highlight_year']} projected income "
+                   f"{format_inr(hy_sub['total_income'])}/yr, {int(submitted['inputs'].active_years)}-year horizon.")
+
+        dl1, dl2 = st.columns(2)
+        pdf_bytes = export.build_pdf_bytes(submitted["inputs"], submitted["projection"], submitted["milestones"])
+        csv_bytes = export.build_csv_bytes(submitted["inputs"], submitted["projection"])
+        dl1.download_button("📄 Download PDF", pdf_bytes, file_name="income_projection.pdf",
+                             mime="application/pdf", use_container_width=True)
+        dl2.download_button("📊 Download CSV", csv_bytes, file_name="income_projection.csv",
+                             mime="text/csv", use_container_width=True)
+    else:
+        st.info("Submit a scenario above to enable the PDF/CSV downloads.")
+
 st.markdown("---")
 chart_years = [r["year"] for r in projection]
 c1, c2, c3 = st.columns(3)
@@ -178,41 +214,3 @@ with c3:
     fig.add_bar(x=chart_years, y=[100 * r["demat_yr"] / t for r, t in zip(projection, totals)], name="Demat")
     fig.update_layout(barmode="stack", title="Income Mix %", yaxis_range=[0, 100])
     st.plotly_chart(fig, use_container_width=True)
-
-
-# ---------------------------------------------------------------------------
-# Submit → lock in this scenario → download PDF / CSV
-# ---------------------------------------------------------------------------
-st.markdown("---")
-st.subheader("Finalize this scenario")
-st.caption("Once you've settled on a target range by trying different numbers above, click Submit to lock in "
-           "this scenario for download.")
-
-if st.button("✅ Submit this scenario", type="primary"):
-    st.session_state["submitted"] = {
-        "inputs": inputs, "projection": projection, "milestones": milestones,
-        "signature": current_signature, "highlight_year": highlight_year,
-    }
-
-submitted = st.session_state.get("submitted")
-if submitted:
-    stale = submitted["signature"] != current_signature
-    if stale:
-        st.warning("Inputs have changed since you last submitted — the downloads below still reflect the "
-                   "**previously submitted** scenario. Click Submit again to refresh them.")
-    else:
-        st.markdown("<div class='submitted-banner'>✅ Scenario submitted and ready to download.</div>", unsafe_allow_html=True)
-
-    hy_sub = submitted["projection"][submitted["highlight_year"] - 1]
-    st.caption(f"Submitted scenario: Year {submitted['highlight_year']} projected income "
-               f"{format_inr(hy_sub['total_income'])}/yr, {int(submitted['inputs'].active_years)}-year horizon.")
-
-    dl1, dl2 = st.columns(2)
-    pdf_bytes = export.build_pdf_bytes(submitted["inputs"], submitted["projection"], submitted["milestones"])
-    csv_bytes = export.build_csv_bytes(submitted["inputs"], submitted["projection"])
-    dl1.download_button("📄 Download PDF", pdf_bytes, file_name="income_projection.pdf",
-                         mime="application/pdf", use_container_width=True)
-    dl2.download_button("📊 Download CSV", csv_bytes, file_name="income_projection.csv",
-                         mime="text/csv", use_container_width=True)
-else:
-    st.info("Submit a scenario above to enable the PDF/CSV downloads.")
