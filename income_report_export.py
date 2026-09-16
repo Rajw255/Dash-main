@@ -148,9 +148,9 @@ def build_pdf_bytes(p: ProjectionInputs, projection: list, milestones: list) -> 
     for y in milestones:
         r = projection[y - 1]
         table_rows.append([
-            str(y), format_count(r["clients"]), r["total_aum"],
-            r["trail_yr"], r["cross_sell_total"] if r["cross_sell_total"] else "—",
-            r["demat_yr"] if r["demat_yr"] else "—", r["total_income"],
+            str(y), format_count(r["clients"]), format_num(r["total_aum"]),
+            format_num(r["trail_yr"]), format_num(r["cross_sell_total"]) if r["cross_sell_total"] else "—",
+            format_num(r["demat_yr"]) if r["demat_yr"] else "—", format_num(r["total_income"]),
         ])
     result_table = Table(table_rows, colWidths=[1.6 * cm, 2.2 * cm, 2.6 * cm, 2.4 * cm, 2.8 * cm, 2.4 * cm, 2.6 * cm])
     result_table.setStyle(TableStyle([
