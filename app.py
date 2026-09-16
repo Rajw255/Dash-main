@@ -95,7 +95,7 @@ col_inputs, col_results = st.columns([1, 2.6])
 with col_inputs:
     st.markdown("**Your Book**")
     starting_clients = st.number_input("Starting Clients", min_value=0, value=0, step=1, key="ic_start_clients")
-    starting_aum_cr = st.number_input("Starting AUM (₹ Cr)", min_value=0.0, value=0.0, step=1.0, key="ic_start_aum")
+    starting_aum_cr = st.number_input("Starting AUM (₹ Cr)", min_value=0.0, value=0.0, step=0.5, key="ic_start_aum")
     new_clients_pm = st.number_input("New Clients / Month", min_value=0, value=5, step=1, key="ic_new_clients")
     sip_per_client = st.number_input("SIP / Client / Month (₹)", min_value=0, value=5000, step=500, key="ic_sip_amt")
     sip_stepup = st.number_input("SIP Step-up % p.a.", min_value=0.0, value=1.0, step=0.5, key="ic_sip_stepup")
