@@ -47,7 +47,7 @@ div.stButton > button[kind="primary"] {{
 }}
 
 .insight-card {{
-    background: Grey;
+    background: White;
     border-left: 4px solid {ACCENT};
     border-radius: 6px;
     padding: 10px 14px;
