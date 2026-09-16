@@ -108,12 +108,39 @@ def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
 
 def build_pdf_bytes(p: ProjectionInputs, projection: list, milestones: list) -> bytes:
     buf = io.BytesIO()
-    doc = SimpleDocTemplate(buf, pagesize=A4, topMargin=1.5 * cm, bottomMargin=1.5 * cm,
-                             leftMargin=1.8 * cm, rightMargin=1.8 * cm)
+
+    doc = SimpleDocTemplate(
+        buf,
+        pagesize=A4,
+        topMargin=1.5 * cm,
+        bottomMargin=1.5 * cm,
+        leftMargin=1.8 * cm,
+        rightMargin=1.8 * cm,
+    )
+
     styles = getSampleStyleSheet()
-    title_style = ParagraphStyle("TitleNavy", parent=styles["Title"], textColor=NAVY, fontSize=18)
-    h2_style = ParagraphStyle("H2Navy", parent=styles["Heading2"], textColor=NAVY, spaceBefore=14)
-    body_style = styles["BodyText"]
+
+    title_style = ParagraphStyle(
+        "TitleNavy",
+        parent=styles["Title"],
+        textColor=NAVY,
+        fontSize=18,
+        fontName="DejaVuSans-Bold",
+    )
+
+    h2_style = ParagraphStyle(
+        "H2Navy",
+        parent=styles["Heading2"],
+        textColor=NAVY,
+        spaceBefore=14,
+        fontName="DejaVuSans-Bold",
+    )
+
+    body_style = ParagraphStyle(
+        "Body",
+        parent=styles["BodyText"],
+        fontName="DejaVuSans",
+    )
 
     story = [
         Paragraph("Partner Income Calculator", title_style),
@@ -122,52 +149,118 @@ def build_pdf_bytes(p: ProjectionInputs, projection: list, milestones: list) -> 
     ]
 
     story.append(Paragraph("Inputs Used", h2_style))
+
     input_rows = _input_rows(p)
     half = (len(input_rows) + 1) // 2
     left, right = input_rows[:half], input_rows[half:]
+
     combined = []
+
     for i in range(max(len(left), len(right))):
         l = left[i] if i < len(left) else ("", "")
         r = right[i] if i < len(right) else ("", "")
         combined.append([l[0], l[1], r[0], r[1]])
-    input_table = Table(combined, colWidths=[4 * cm, 3.3 * cm, 4 * cm, 3.3 * cm])
-    input_table.setStyle(TableStyle([
-        ("FONTSIZE", (0, 0), (-1, -1), 8),
-        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#dddddd")),
-        ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#f5f7fa")),
-        ("BACKGROUND", (2, 0), (2, -1), colors.HexColor("#f5f7fa")),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("TOPPADDING", (0, 0), (-1, -1), 3),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
-    ]))
+
+    input_table = Table(
+        combined,
+        colWidths=[4 * cm, 3.3 * cm, 4 * cm, 3.3 * cm],
+    )
+
+    input_table.setStyle(
+        TableStyle([
+            ("FONTNAME", (0, 0), (-1, -1), "DejaVuSans"),
+            ("FONTSIZE", (0, 0), (-1, -1), 8),
+            ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#dddddd")),
+            ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#f5f7fa")),
+            ("BACKGROUND", (2, 0), (2, -1), colors.HexColor("#f5f7fa")),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("TOPPADDING", (0, 0), (-1, -1), 3),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+        ])
+    )
+
     story.append(input_table)
 
-    story.append(Paragraph(f"{p.active_years}-Year Income Projection — Milestones", h2_style))
-    header = ["Year", "Clients", "Total AUM", "Trail /Yr", "Cross-sell /Yr", "Demat /Yr", "Total Income"]
+    story.append(
+        Paragraph(
+            f"{p.active_years}-Year Income Projection — Milestones",
+            h2_style,
+        )
+    )
+
+    header = [
+        "Year",
+        "Clients",
+        "Total AUM",
+        "Trail /Yr",
+        "Cross-sell /Yr",
+        "Demat /Yr",
+        "Total Income",
+    ]
+
     table_rows = [header]
+
     for y in milestones:
         r = projection[y - 1]
+
         table_rows.append([
-            str(y), format_count(r["clients"]), format_inr(r["total_aum"]),
-            format_inr(r["trail_yr"]), format_inr(r["cross_sell_total"]) if r["cross_sell_total"] else "—",
-            format_inr(r["demat_yr"]) if r["demat_yr"] else "—", format_inr(r["total_income"]),
+            str(y),
+            format_count(r["clients"]),
+            format_inr(r["total_aum"]),
+            format_inr(r["trail_yr"]),
+            format_inr(r["cross_sell_total"])
+            if r["cross_sell_total"]
+            else "—",
+            format_inr(r["demat_yr"])
+            if r["demat_yr"]
+            else "—",
+            format_inr(r["total_income"]),
         ])
-    result_table = Table(table_rows, colWidths=[1.6 * cm, 2.2 * cm, 2.6 * cm, 2.4 * cm, 2.8 * cm, 2.4 * cm, 2.6 * cm])
-    result_table.setStyle(TableStyle([
-        ("BACKGROUND", (0, 0), (-1, 0), NAVY),
-        ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
-        ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold"),
-        ("FONTSIZE", (0, 0), (-1, -1), 8),
-        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#cccccc")),
-        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#f5f7fa")]),
-        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
-        ("TOPPADDING", (0, 0), (-1, -1), 4),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
-    ]))
+
+    result_table = Table(
+        table_rows,
+        colWidths=[
+            1.6 * cm,
+            2.2 * cm,
+            2.6 * cm,
+            2.4 * cm,
+            2.8 * cm,
+            2.4 * cm,
+            2.6 * cm,
+        ],
+    )
+
+    result_table.setStyle(
+        TableStyle([
+            ("BACKGROUND", (0, 0), (-1, 0), NAVY),
+            ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+            ("FONTNAME", (0, 0), (-1, 0), "DejaVuSans-Bold"),
+            ("FONTNAME", (0, 1), (-1, -1), "DejaVuSans"),
+            ("FONTSIZE", (0, 0), (-1, -1), 8),
+            ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#cccccc")),
+            (
+                "ROWBACKGROUNDS",
+                (0, 1),
+                (-1, -1),
+                [colors.white, colors.HexColor("#f5f7fa")],
+            ),
+            ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("TOPPADDING", (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+        ])
+    )
+
     story.append(result_table)
     story.append(Spacer(1, 10))
-    story.append(Paragraph("Illustrative projections. Actual returns depend on market conditions and client activity.", body_style))
+
+    story.append(
+        Paragraph(
+            "Illustrative projections. Actual returns depend on market conditions and client activity.",
+            body_style,
+        )
+    )
 
     doc.build(story)
     buf.seek(0)
+
     return buf.read()
