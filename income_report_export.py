@@ -40,7 +40,7 @@ def _input_rows(p: ProjectionInputs) -> list:
         ("Life Insurance", "On (40% commission)" if p.life.enabled else "Off"),
         ("Health Insurance", "On (30% commission)" if p.health.enabled else "Off"),
         ("PMS", "On (1% commission)" if p.pms.enabled else "Off"),
-        ("Demat & Broking", "On (₹210/client/mo)" if p.demat.enabled else "Off"),
+        ("Demat & Broking", "On (210/client/mo)" if p.demat.enabled else "Off"),
     ]
     return rows
 
