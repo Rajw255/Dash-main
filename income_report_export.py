@@ -172,4 +172,3 @@ def build_pdf_bytes(p: ProjectionInputs, projection: list, milestones: list) -> 
     buf.seek(0)
     return buf.read()
 
-In the pdf the rupee symbol getting blacked d()
