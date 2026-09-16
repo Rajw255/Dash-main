@@ -75,10 +75,10 @@ def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
     input_rows = [
         ("Starting Clients", p.starting_clients),
         ("Starting AUM", format_num(p.starting_aum)),
-        ("New Clients / Month", p.new_clients_per_month),
-        ("SIP / Client / Month", p.sip_per_client_month),
+        ("New Clients / Month", format_num(p.new_clients_per_month)),
+        ("SIP / Client / Month", format_num(p.sip_per_client_month)),
         ("SIP Step-up % p.a.", p.sip_stepup_pct / 100),
-        ("Annual Lumpsum / Client", p.annual_lumpsum_per_client),
+        ("Annual Lumpsum / Client", format_num(p.annual_lumpsum_per_client)),
         ("Lumpsum Step-up % p.a.", p.lumpsum_stepup_pct / 100),
         ("Annual Redemption %", p.annual_redemption_pct / 100),
         ("Active Years", p.active_years),
