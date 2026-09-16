@@ -1,17 +1,6 @@
 """
 Partner Income Calculator
 ===========================
-Trimmed down, per request, to just the Income Calculator: adjust
-assumptions and see the projection update live, then click Submit to
-lock in a scenario and download it as PDF or CSV.
-
-The other dashboard sections (Business Performance, Client Analytics,
-Target vs Achievement, Growth & Trends, etc.) built earlier are still in
-this project's other files (data_layer.py, calculations.py,
-excel_loader.py, consolidate.py, report_export.py) — nothing was
-deleted, they're just not wired into app.py right now. Say the word and
-I'll bring any of them back in.
-
 Run locally:   streamlit run app.py
 Deploy free:   push this folder to GitHub, then deploy on
                https://share.streamlit.io (Streamlit Community Cloud)
@@ -33,9 +22,7 @@ PRIMARY = "#0B3D66"
 ACCENT = "#C89B3C"
 
 st.markdown(f"""
-<style>
-
-.block-container {{
+<style>.block-container {{
     padding-top: 3rem !important;
 }}
 
@@ -54,9 +41,9 @@ h1 {{
 
 /* Submit button color */
 div.stButton > button[kind="primary"] {{
-    background-color: #198754 !important;
-    color: white !important;
-    border: none !important;
+    background-color: #198754;
+    color: white;
+    border: none;
 }}
 
 .insight-card {{
