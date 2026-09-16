@@ -64,26 +64,27 @@ def _results_dataframe(projection: list) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
-    """CSV containing raw numeric inputs and full year-by-year projection."""
+def build_csv_bytes(p: ProjectionInputs) -> bytes:
+    """CSV containing only the raw calculator target inputs."""
 
     buf = io.StringIO()
 
-    # Inputs
-    buf.write("Partner Income Calculator - Inputs\n")
+    # Header
+    buf.write("Partner Income Calculator - Targets\n")
 
+    # Raw input values
     input_rows = [
         ("Starting Clients", p.starting_clients),
         ("Starting AUM", p.starting_aum),
         ("New Clients / Month", p.new_clients_per_month),
         ("SIP / Client / Month", p.sip_per_client_month),
-        ("SIP Step-up % p.a.", p.sip_stepup_pct/100),
+        ("SIP Step-up % p.a.", p.sip_stepup_pct / 100),
         ("Annual Lumpsum / Client", p.annual_lumpsum_per_client),
-        ("Lumpsum Step-up % p.a.", p.lumpsum_stepup_pct/100),
-        ("Annual Redemption %", p.annual_redemption_pct/100),
+        ("Lumpsum Step-up % p.a.", p.lumpsum_stepup_pct / 100),
+        ("Annual Redemption %", p.annual_redemption_pct / 100),
         ("Active Years", p.active_years),
-        ("Trail Rate % p.a.", p.trail_rate_pct/100),
-        ("Market CAGR % p.a.", p.market_cagr_pct/100),
+        ("Trail Rate % p.a.", p.trail_rate_pct / 100),
+        ("Market CAGR % p.a.", p.market_cagr_pct / 100),
         ("Life Insurance", p.life.enabled),
         ("Health Insurance", p.health.enabled),
         ("PMS", p.pms.enabled),
@@ -92,16 +93,6 @@ def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
 
     for label, value in input_rows:
         buf.write(f"{label},{value}\n")
-
-    buf.write("\n")
-
-    # Full projection
-    buf.write(f"{p.active_years}-Year Projection\n")
-
-    _results_dataframe(projection).to_csv(
-        buf,
-        index=False
-    )
 
     return buf.getvalue().encode("utf-8-sig")
 
