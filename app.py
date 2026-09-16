@@ -100,7 +100,7 @@ with col_inputs:
     sip_per_client = st.number_input("SIP / Client / Month (₹)", min_value=0, value=0, step=500, key="ic_sip_amt")
     sip_stepup = st.number_input("SIP Step-up % p.a.", min_value=0.0, value=0, step=0.5, key="ic_sip_stepup")
     lumpsum_amt = st.number_input("Annual Lumpsum / Client (₹)", min_value=0, value=0, step=1000, key="ic_lumpsum")
-    lumpsum_stepup = st.number_input("Lumpsum Step-up % p.a.", min_value=0.0, value=0.0, step=0.5, key="ic_lumpsum_stepup")
+    lumpsum_stepup = st.number_input("Lumpsum Step-up % p.a.", min_value=0.0, value=1.0, step=0.5, key="ic_lumpsum_stepup")
     redemption_pct = st.number_input("Annual Redemption %", min_value=0.0, value=0, step=0.5, key="ic_redemption")
     active_years = st.number_input("Active Years (effort)", min_value=1, max_value=40, value=0, step=1, key="ic_years")
 
