@@ -12,7 +12,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
-from formatting import format_inr, format_count, format_pct
+from formatting import format_count, format_pct
 from income_projection import ProjectionInputs, CrossSellAssumption, simulate, milestone_years
 import income_report_export as export
 
@@ -150,16 +150,16 @@ with col_results:
         r = projection[y - 1]
         table_rows.append({
             "Year": y, "Clients": format_count(r["clients"]),
-            "SIP Contrib.": format_inr(r["sip_contrib"]),
-            "Step-up Inflows": format_inr(r["stepup_inflow"]) if r["stepup_inflow"] else "—",
-            "Lumpsum / Yr": format_inr(r["lumpsum"]),
-            "Mkt. Gains": format_inr(r["mkt_gains"]),
-            "Total AUM": format_inr(r["total_aum"]),
-            "SIP Book /Mo": format_inr(r["sip_book_mo"]),
-            "Trail / Yr": format_inr(r["trail_yr"]),
-            "Cross-sell / Yr": format_inr(r["cross_sell_total"]) if r["cross_sell_total"] else "—",
-            "Demat / Yr": format_inr(r["demat_yr"]) if r["demat_yr"] else "—",
-            "Total Income": format_inr(r["total_income"]),
+            "SIP Contrib.": r["sip_contrib"],
+            "Step-up Inflows": r["stepup_inflow"] if r["stepup_inflow"] else "—",
+            "Lumpsum / Yr": r["lumpsum"],
+            "Mkt. Gains": r["mkt_gains"],
+            "Total AUM": r["total_aum"],
+            "SIP Book /Mo": r["sip_book_mo"],
+            "Trail / Yr": r["trail_yr"],
+            "Cross-sell / Yr": r["cross_sell_total"] if r["cross_sell_total"] else "—",
+            "Demat / Yr": r["demat_yr"] if r["demat_yr"] else "—",
+            "Total Income": r["total_income"],
             "Uplift": format_pct(r["uplift_pct"]) if r["uplift_pct"] is not None else "—",
         })
     st.dataframe(pd.DataFrame(table_rows), use_container_width=True, hide_index=True)
@@ -190,7 +190,7 @@ with col_results:
 
         hy_sub = submitted["projection"][submitted["highlight_year"] - 1]
         #st.caption(f"Submitted scenario: Year {submitted['highlight_year']} projected income "
-         #          f"{format_inr(hy_sub['total_income'])}/yr, {int(submitted['inputs'].active_years)}-year horizon.")
+         #          f"{hy_sub['total_income'])}/yr, {int(submitted['inputs'].active_years)}-year horizon.")
 
         dl1, dl2 = st.columns(2)
         pdf_bytes = export.build_pdf_bytes(submitted["inputs"], submitted["projection"], submitted["milestones"])
