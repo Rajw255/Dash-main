@@ -64,15 +64,14 @@ def _results_dataframe(projection: list) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def build_csv_bytes(p: ProjectionInputs) -> bytes:
-    """CSV containing only the raw calculator target inputs."""
+def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
+    """CSV containing raw numeric inputs and full year-by-year projection."""
 
     buf = io.StringIO()
 
-    # Header
+    # Inputs
     buf.write("Partner Income Calculator - Targets\n")
 
-    # Raw input values
     input_rows = [
         ("Starting Clients", p.starting_clients),
         ("Starting AUM", p.starting_aum),
@@ -93,6 +92,16 @@ def build_csv_bytes(p: ProjectionInputs) -> bytes:
 
     for label, value in input_rows:
         buf.write(f"{label},{value}\n")
+
+    buf.write("\n")
+
+    # Full projection
+    buf.write(f"{p.active_years}-Year Projection\n")
+
+    _results_dataframe(projection).to_csv(
+        buf,
+        index=False
+    )
 
     return buf.getvalue().encode("utf-8-sig")
 
