@@ -4,23 +4,6 @@ Used everywhere a rupee amount or large count is displayed in the dashboard.
 """
 
 
-def format_inr(value: float, decimals: int = 2) -> str:
-    """Format a rupee value using Indian Lakh/Crore convention.
-
-    < 1,00,000        -> plain rupees, e.g. ₹45,000
-    1,00,000 - 99,99,999   -> Lakhs, e.g. ₹42.00 L
-    >= 1,00,00,000     -> Crores, e.g. ₹8.50 Cr
-    Negative values are handled (shown with a leading '-').
-    """
-    if value is None:
-        return "-"
-    sign = "-" if value < 0 else ""
-    v = abs(value)
-    if v >= 1_00_00_000:
-        return f"{sign}₹{v / 1_00_00_000:.{decimals}f} Cr"
-    if v >= 1_00_000:
-        return f"{sign}₹{v / 1_00_000:.{decimals}f} L"
-    return f"{sign}₹{v:,.0f}"
 
 
 def format_count(value: float) -> str:
