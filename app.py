@@ -176,8 +176,8 @@ with col_results:
             "Uplift": format_pct(r["uplift_pct"]) if r["uplift_pct"] is not None else "—",
         })
     st.dataframe(pd.DataFrame(table_rows), use_container_width=True, hide_index=True)
-    st.caption(f"Illustrative projections. Trail: {trail_rate}% p.a. · Market CAGR: {market_cagr}% · "
-               f"Cross-sell: Life 40% · Health 30% · PMS 1% (of AUM) · Demat ₹210/active client/mo.")
+    #st.caption(f"Illustrative projections. Trail: {trail_rate}% p.a. · Market CAGR: {market_cagr}% · "
+             #  f"Cross-sell: Life 40% · Health 30% · PMS 1% (of AUM) · Demat ₹210/active client/mo.")
 
     # -----------------------------------------------------------------
     # Submit → lock in this scenario → download PDF / CSV (right under the table)
