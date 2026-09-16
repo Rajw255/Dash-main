@@ -65,14 +65,44 @@ def _results_dataframe(projection: list) -> pd.DataFrame:
 
 
 def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
-    """One CSV: an 'Inputs' block, then the full year-by-year results table."""
+    """CSV containing raw numeric inputs and full year-by-year projection."""
+
     buf = io.StringIO()
-    buf.write("Partner Income Calculator — Inputs\n")
-    for label, value in _input_rows(p):
+
+    # Inputs
+    buf.write("Partner Income Calculator - Inputs\n")
+
+    input_rows = [
+        ("Starting Clients", p.starting_clients),
+        ("Starting AUM", p.starting_aum),
+        ("New Clients / Month", p.new_clients_per_month),
+        ("SIP / Client / Month", p.sip_per_client_month),
+        ("SIP Step-up % p.a.", p.sip_stepup_pct),
+        ("Annual Lumpsum / Client", p.annual_lumpsum_per_client),
+        ("Lumpsum Step-up % p.a.", p.lumpsum_stepup_pct),
+        ("Annual Redemption %", p.annual_redemption_pct),
+        ("Active Years", p.active_years),
+        ("Trail Rate % p.a.", p.trail_rate_pct),
+        ("Market CAGR % p.a.", p.market_cagr_pct),
+        ("Life Insurance", p.life.enabled),
+        ("Health Insurance", p.health.enabled),
+        ("PMS", p.pms.enabled),
+        ("Demat & Broking", p.demat.enabled),
+    ]
+
+    for label, value in input_rows:
         buf.write(f"{label},{value}\n")
+
     buf.write("\n")
+
+    # Full projection
     buf.write(f"{p.active_years}-Year Projection\n")
-    _results_dataframe(projection).to_csv(buf, index=False)
+
+    _results_dataframe(projection).to_csv(
+        buf,
+        index=False
+    )
+
     return buf.getvalue().encode("utf-8")
 
 
