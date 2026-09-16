@@ -17,7 +17,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 
-from formatting import format_count, format_pct
+from formatting import format_num,format_count, format_pct
 from income_projection import ProjectionInputs
 
 NAVY = colors.HexColor("#0B3D66")
@@ -74,7 +74,7 @@ def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
 
     input_rows = [
         ("Starting Clients", p.starting_clients),
-        ("Starting AUM", p.starting_aum),
+        ("Starting AUM", format_num(p.starting_aum)),
         ("New Clients / Month", p.new_clients_per_month),
         ("SIP / Client / Month", p.sip_per_client_month),
         ("SIP Step-up % p.a.", p.sip_stepup_pct / 100),
