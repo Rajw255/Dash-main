@@ -17,7 +17,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import cm
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 
-from formatting import format_inr, format_count, format_pct
+from formatting import format_count, format_pct
 from income_projection import ProjectionInputs
 
 NAVY = colors.HexColor("#0B3D66")
@@ -27,11 +27,11 @@ def _input_rows(p: ProjectionInputs) -> list:
     """Ordered (label, value) pairs describing exactly what was entered."""
     rows = [
         ("Starting Clients", str(p.starting_clients)),
-        ("Starting AUM", format_inr(p.starting_aum)),
+        ("Starting AUM", p.starting_aum),
         ("New Clients / Month", str(p.new_clients_per_month)),
-        ("SIP / Client / Month", format_inr(p.sip_per_client_month)),
+        ("SIP / Client / Month", p.sip_per_client_month),
         ("SIP Step-up % p.a.", f"{p.sip_stepup_pct}%"),
-        ("Annual Lumpsum / Client", format_inr(p.annual_lumpsum_per_client)),
+        ("Annual Lumpsum / Client", p.annual_lumpsum_per_client),
         ("Lumpsum Step-up % p.a.", f"{p.lumpsum_stepup_pct}%"),
         ("Annual Redemption %", f"{p.annual_redemption_pct}%"),
         ("Active Years", str(p.active_years)),
@@ -148,9 +148,9 @@ def build_pdf_bytes(p: ProjectionInputs, projection: list, milestones: list) -> 
     for y in milestones:
         r = projection[y - 1]
         table_rows.append([
-            str(y), format_count(r["clients"]), format_inr(r["total_aum"]),
-            format_inr(r["trail_yr"]), format_inr(r["cross_sell_total"]) if r["cross_sell_total"] else "—",
-            format_inr(r["demat_yr"]) if r["demat_yr"] else "—", format_inr(r["total_income"]),
+            str(y), format_count(r["clients"]), r["total_aum"],
+            r["trail_yr"], r["cross_sell_total"] if r["cross_sell_total"] else "—",
+            r["demat_yr"] if r["demat_yr"] else "—", r["total_income"],
         ])
     result_table = Table(table_rows, colWidths=[1.6 * cm, 2.2 * cm, 2.6 * cm, 2.4 * cm, 2.8 * cm, 2.4 * cm, 2.6 * cm])
     result_table.setStyle(TableStyle([
