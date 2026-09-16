@@ -103,7 +103,7 @@ def build_csv_bytes(p: ProjectionInputs, projection: list) -> bytes:
         index=False
     )
 
-    return buf.getvalue().encode("utf-8")
+    return buf.getvalue().encode("utf-8-sig")
 
 
 def build_pdf_bytes(p: ProjectionInputs, projection: list, milestones: list) -> bytes:
