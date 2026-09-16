@@ -41,7 +41,7 @@ h1 {{
 
 /* Submit button color */
 div.stButton > button[kind="primary"] {{
-    background-color: #198754;
+    background-color: #198754 !important;
     color: white;
     border: none;
 }}
