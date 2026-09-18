@@ -1,22 +1,3 @@
-"""
-INCOME PROJECTION ENGINE
-==========================
-Powers the "Income Calculator" page — a long-horizon (multi-year) partner
-income simulator in the style of wealthy.in's Partner Income Calculator:
-starting book + monthly client acquisition + SIP step-ups + lumpsum +
-market compounding + trail income + optional cross-sell income streams,
-projected out year by year.
-
-This is intentionally a SEPARATE tool from the "Target Projection"
-page (which answers "will I hit THIS month/quarter's target"). This one
-answers "what could my trail book and income look like in 5/10/25 years
-if I keep acquiring clients at this pace" — a business-planning /
-recruitment-pitch tool, not a period-actuals tool. It runs entirely on
-user-entered assumptions, not on Transaction Fact.
-
-All money amounts are in plain rupees internally; the UI layer
-(formatting.format_inr) handles L/Cr display.
-"""
 
 from dataclasses import dataclass, field
 
